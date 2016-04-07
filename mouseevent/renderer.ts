@@ -46,6 +46,7 @@ module render {
             else {
                 //TODO:
                 // GLOBAL_MATRIX = PARENT_GLOBAL_MATRIX * LOCAL_MATRIX
+                localMatrix=math.matrixAppendMatrix(localMatrix,new math.Matrix(1,0,0,1,-20,-20));//调整轴心点的位置向右20，向下20
                 this.globalMatrix = math.matrixAppendMatrix(localMatrix, parent.globalMatrix);
             }
 
@@ -97,6 +98,7 @@ module render {
 
 
         source;
+        range:math.Range;
         constructor(source:string,x:number,y:number,scaleX:number,scaleY:number,rotation:number){
             super();
             this.source=source;
@@ -105,6 +107,10 @@ module render {
             this.scaleX=scaleX;
             this.scaleY=scaleY;
             this.rotation=rotation;
+        }
+        setRange(x:number,y:number,width:number,height:number){
+
+            this.range=new math.Range(x,y,width,height);
         }
 
         render(context: CanvasRenderingContext2D) {

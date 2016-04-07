@@ -10,12 +10,25 @@ module math {
             this.x = x;
             this.y = y;
         }
-        IsRange(x:number,y:number,width:number,height:number):boolean{
-            if(this.x >= x&&this.x <= x+width && this.y >= y && this.y <= y+height){
+        IsRange(range:Range):boolean{
+            if(this.x >= range.x&&this.x <= range.x+range.width && this.y >= range.y && this.y <= range.y+range.height){
                 return true;
             }
             else{
             return false;}
+        }
+   
+    }
+    export class Range {
+        x:number;
+        y:number;
+        width:number;
+        height:number;
+        constructor(x:number,y:number,width:number,height:number){
+            this.x=x;
+            this.y=y;
+            this.width=width;
+            this.height=height;
         }
     }
 

@@ -1,12 +1,14 @@
 
 var humanContainer = new render.DisplayObjectContainer();
 var head = new render.Bitmap("head.png", -40, -50, 1, 1, 0);
+head.setRange(0,0,74,156);
 var trunk = new render.Bitmap("trunk.png", 0, 0, 1, 1, 0);
 var righthand = new render.Bitmap("righthand.png", 15, 10, 1, 1, 0);
 var lefthand = new render.Bitmap("lefthand.png", 15, 10, 1, 1, 0);
 var rightleg = new render.Bitmap("rightleg.png", -5, 70, 1, 1, 0);
+rightleg.setRange(35,0,67,61);
 var leftleg = new render.Bitmap("leftleg.png", -5, 70, 1, 1, 0);
-
+leftleg.setRange(35,0,67,61);
 humanContainer.addChild(head);
 humanContainer.addChild(trunk);
 humanContainer.addChild(righthand);
@@ -60,12 +62,13 @@ eventCore.init();
 
 var headHitTest = (localPoint:math.Point,displayObject:render.DisplayObject) =>{
     //alert (`点击位置为${localPoint.x},${localPoint.y}`);
-    if(localPoint.IsRange(35,0,67,61)){
+    console.log(localPoint.x,localPoint.y);
+    if(localPoint.IsRange(head.range)){
     return true;}
 }
 var legHitTest = (localPoint:math.Point,displayObject:render.DisplayObject) =>{
     //alert (`点击位置为${localPoint.x},${localPoint.y}`);
-    if(localPoint.IsRange(0,0,74,156)){
+    if(localPoint.IsRange(leftleg.range)){
     return true;}
 }
 
