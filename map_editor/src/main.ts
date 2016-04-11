@@ -60,16 +60,17 @@ function onSaveClick() {
 
     SaveData.push(data);
     writeFile(data);
-    alert("保存成功");
+    alert("保存成功(●'◡'●)");
     console.log(SaveData);
 
 }
 function onCancelClick() {
     if(!SaveData.length){
-        alert("没有再可以撤销的了亲");
+        alert("没有再可以撤销的了亲(￣▽￣)");
     }
     else{
     mapData = SaveData.pop();
+    writeFile(mapData);
     console.log(mapData);
     var rows = mapData.length;
     var cols = mapData[0].length;
@@ -81,15 +82,15 @@ function onCancelClick() {
         }
     }
    
-    alert("撤销成功");
+    alert("撤销成功(●'◡'●)");
     }
 
 
 }
 
-var save = new render.TextField("Save");
+var save = new render.TextField("保存");
 save.x = 220;
-var cancel = new render.TextField("Cancel");
+var cancel = new render.TextField("撤销");
 cancel.x = 220;
 cancel.y = 40;
 
