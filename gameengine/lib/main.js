@@ -18,10 +18,16 @@ function createMapEditor() {
     }
     return world;
 }
-var materials = new editor.Material();
-materials.addMaterial(new render.Bitmap("Test.jpg", "white"));
+var green = new editor.Material("Green.jpg", "green", 0);
+var black = new editor.Material("Black.jpg", "black", 0);
+var red = new editor.Material("Red.jpg", "red", 0);
+green.setWalkable(0);
+var materials = new Array();
+materials.push(green);
+materials.push(black);
+materials.push(red);
 function onTileClick(tile) {
-    tile.setMaterial(materials, 0);
+    tile.setMaterial(panel.currentmaterial);
     console.log(tile.toString());
 }
 var storage = data.Storage.getInstance();
@@ -33,7 +39,7 @@ eventCore.init();
 var mapEditor = createMapEditor();
 var stage = new render.DisplayObjectContainer();
 stage.addChild(mapEditor);
-var panel = new editor.ControlPanel();
+var panel = new editor.ControlPanel(materials);
 panel.x = 300;
 stage.addChild(panel);
-renderCore.start(stage);
+renderCore.start(stage, ["Black.jpg", "Red.jpg", "Green.jpg"]);

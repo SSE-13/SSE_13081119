@@ -28,59 +28,115 @@ module editor {
     }
 
     export class Material{
-        materials:Array<render.Bitmap>;
-        constructor() {
+        material:render.Bitmap;
+        walkable:number;
+        constructor(source:string,name:string,walkable:number) {
+            this.material=new render.Bitmap(source,name);
+            this.walkable=walkable;
 
-            this.materials = [];
         }
-        public addMaterial(material:render.Bitmap){
-            this.materials.push(material);
+        public setWalkable(walkable:number){
+            this.walkable=walkable;
         }
-
+        public IsWalkableMaterial():number{
+            return this.walkable;
+        }
 
         
     }
-    export class Tile extends render.Rect {
+    export class Tile extends render.Bitmap {
 
 
         public ownedRow: number;
         public ownedCol: number;
-        public walkable: boolean;
-        public material: render.Bitmap;
+        public walkable: number;
+        public material: Material;
+
 
         constructor() {
-            super();
+            super("Red.jpg","Tile");
+
         }
 
         public setWalkable(value) {
-            this.color = value ? "#0000FF" : "#FF0000";
-            this.walkable=value==0?true:false;
+            if(value==0){
+                this.material=new Material("Red.jpg","red",value);
+            }
+            else{
+                this.material=new Material("Black.jpg","black",value);
+            }
+            this.source=this.material.material.source;
+            this.name=this.material.material.name;
+            this.walkable=value;
         }
-        public setMaterial(materials:Material,index:number){
-           this.material=materials.materials[index];
+        public setMaterial(material:Material){
+           this.material=material;
+          
+           this.source=this.material.material.source;
+           this.name=this.material.material.name;
+           this.walkable=this.material.walkable;
            
         }
         public toString():string{
-            if(this.material.name
+            if(this.material.material.name
             ){
-            return "row:"+this.ownedRow+" col:"+this.ownedCol+" walkable:"+this.walkable+" material:"+this.material.name;}
+            return "row:"+this.ownedRow+" col:"+this.ownedCol+" walkable:"+this.walkable+" material:"+this.material.material.name;}
         }
     }
     
     
     export class ControlPanel extends render.DisplayObjectContainer {
-        
-        constructor(){
+
+        currentmaterial;
+        constructor(materials:editor.Material[]){
             super();
             var button = new ui.Button();
-            button.text = "Hello";
+            button.text = "Green";
             button.width = 100;
             button.height = 50;
             this.addChild(button);
             button.onClick = ()=> {
-                alert(111);
-            }
+                /*var radio=document.getElementsByName("material");
+                for(var i=0;i < radio.length;i++){
+                    if(radio[i].checked){
+                        this.currentmaterial=materials[radio[i].value];
+                    }
+                }*/
+                this.currentmaterial=materials[0];
+                }
+             var button2 = new ui.Button();
+            button2.text = "Black";
+            button2.width = 100;
+            button2.height = 50;
+            button2.y=60;
+            this.addChild(button2);
+            button2.onClick = ()=> {
+                /*var radio=document.getElementsByName("material");
+                for(var i=0;i < radio.length;i++){
+                    if(radio[i].checked){
+                        this.currentmaterial=materials[radio[i].value];
+                    }
+                }*/
+                 this.currentmaterial=materials[1];
+                }
+            var button3 = new ui.Button();
+            button3.text = "Red";
+            button3.width = 100;
+            button3.height = 50;
+            button3.y=120;
+            this.addChild(button3);
+            button3.onClick = ()=> {
+                /*var radio=document.getElementsByName("material");
+                for(var i=0;i < radio.length;i++){
+                    if(radio[i].checked){
+                        this.currentmaterial=materials[radio[i].value];
+                    }
+                }*/
+                 this.currentmaterial=materials[2];
+                }
+            
         }
+    
         
     }
 }
