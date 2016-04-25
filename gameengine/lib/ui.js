@@ -116,7 +116,7 @@ var ui;
             var _this = this;
             _super.call(this, materials.length, materials);
             this.Check(this.radiobuttons[0]);
-            this.setMaterial = materials[i];
+            this.setMaterial = materials[0];
             for (var i = 0; i < this.num; i++) {
                 this.radiobuttons[i].onClick = function (evt) {
                     //alert(this.radiobuttons.indexOf(evt));

@@ -125,7 +125,7 @@ module ui {
         constructor(materials:editor.Material[]){
             super(materials.length,materials);
             this.Check(this.radiobuttons[0]);
-             this.setMaterial=materials[i];
+             this.setMaterial=materials[0];
             for(var i=0;i < this.num;i++){
                 this.radiobuttons[i].onClick = (evt) => {
 
