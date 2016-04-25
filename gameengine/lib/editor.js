@@ -15,7 +15,13 @@ var editor;
             this.cache = document.createElement("canvas");
             this.cache.width = 400;
             this.cache.height = 400;
+            this.stroke = new render.Bitmap("Stroke.png", "stroke");
         }
+        WorldMap.prototype.getChild = function (row, col) {
+            var rows = mapData.length;
+            var cols = mapData[0].length;
+            return this.children[row * cols + col];
+        };
         WorldMap.prototype.render = function (context) {
             _super.prototype.render.call(this, context);
         };
@@ -60,7 +66,7 @@ var editor;
         };
         Tile.prototype.toString = function () {
             if (this.material.material.name) {
-                return "row:" + this.ownedRow + " col:" + this.ownedCol + " walkable:" + this.walkable + " material:" + this.material.material.name;
+                return "row:" + this.ownedRow + "\ncol:" + this.ownedCol + "\nwalkable:" + this.walkable + "\nmaterial:" + this.material.material.name;
             }
         };
         return Tile;
@@ -71,50 +77,34 @@ var editor;
         function ControlPanel(materials) {
             var _this = this;
             _super.call(this);
-            var button = new ui.Button();
-            button.text = "Green";
-            button.width = 100;
-            button.height = 50;
-            this.addChild(button);
-            button.onClick = function () {
-                /*var radio=document.getElementsByName("material");
-                for(var i=0;i < radio.length;i++){
-                    if(radio[i].checked){
-                        this.currentmaterial=materials[radio[i].value];
-                    }
-                }*/
-                _this.currentmaterial = materials[0];
+            var materialradio = new ui.MaterialRadio(materials);
+            materialradio.radiobuttons[0].text = "Green";
+            materialradio.radiobuttons[1].text = "Black";
+            materialradio.radiobuttons[2].text = "Red";
+            var walkableradio = new ui.WalkableRadio(materials);
+            walkableradio.radiobuttons[0].text = "Walkable";
+            walkableradio.radiobuttons[1].text = "Unwalkable";
+            this.currentmaterial = materialradio.setMaterial;
+            var submit = new ui.Button("提交");
+            submit.height = 50;
+            submit.y = 230;
+            submit.x = 50;
+            submit.onClick = function () {
+                if (currenttile) {
+                    var rows = mapData.length;
+                    var cols = mapData[0].length;
+                    _this.currentmaterial = materialradio.setMaterial;
+                    _this.currentmaterial.walkable = walkableradio.walkable;
+                    mapEditor.getChild(currenttile.ownedCol, currenttile.ownedRow).setMaterial(_this.currentmaterial);
+                    information.Update(mapEditor.getChild(currenttile.ownedCol, currenttile.ownedRow));
+                }
+                else
+                    alert("请先选择网格");
             };
-            var button2 = new ui.Button();
-            button2.text = "Black";
-            button2.width = 100;
-            button2.height = 50;
-            button2.y = 60;
-            this.addChild(button2);
-            button2.onClick = function () {
-                /*var radio=document.getElementsByName("material");
-                for(var i=0;i < radio.length;i++){
-                    if(radio[i].checked){
-                        this.currentmaterial=materials[radio[i].value];
-                    }
-                }*/
-                _this.currentmaterial = materials[1];
-            };
-            var button3 = new ui.Button();
-            button3.text = "Red";
-            button3.width = 100;
-            button3.height = 50;
-            button3.y = 120;
-            this.addChild(button3);
-            button3.onClick = function () {
-                /*var radio=document.getElementsByName("material");
-                for(var i=0;i < radio.length;i++){
-                    if(radio[i].checked){
-                        this.currentmaterial=materials[radio[i].value];
-                    }
-                }*/
-                _this.currentmaterial = materials[2];
-            };
+            walkableradio.x = 120;
+            this.addChild(materialradio);
+            this.addChild(walkableradio);
+            this.addChild(submit);
         }
         return ControlPanel;
     }(render.DisplayObjectContainer));
