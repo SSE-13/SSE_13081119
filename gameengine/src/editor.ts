@@ -32,6 +32,15 @@ module editor {
             super.render(context);
         }
     }
+    export class Mapdata{
+        material:string;
+        walkable:number;
+        constructor(material,walkable){
+            this.material=material;
+            this.walkable=walkable;
+        }
+    }
+ 
 
     export class Material{
         material:render.Bitmap;
@@ -113,7 +122,10 @@ module editor {
             var submit=new ui.Button("提交");
             submit.height=50;
             submit.y=230;
-            submit.x=50;
+            var save=new ui.Button("保存");
+            save.height=50;
+            save.x=120;
+            save.y=230;
             submit.onClick=()=>{
                 if(currenttile){
                 var rows = mapData.length;
@@ -122,8 +134,11 @@ module editor {
                 this.currentmaterial=materialradio.setMaterial;
                 this.currentmaterial.walkable=walkableradio.walkable;
                 
-                mapEditor.getChild(currenttile.ownedCol,currenttile.ownedRow).setMaterial(this.currentmaterial);
-                information.Update( mapEditor.getChild(currenttile.ownedCol,currenttile.ownedRow));
+                var child=<editor.Tile>mapEditor.getChild(currenttile.ownedCol,currenttile.ownedRow);
+                
+                
+               child.setMaterial(this.currentmaterial);
+                information.Update(child);
                 }
                 else
                 alert("请先选择网格");
@@ -131,11 +146,16 @@ module editor {
 
                 
             }
+            save.onClick=()=>{
+                storage.saveFile(mapEditor);
+                alert("保存成功");
+            }
             walkableradio.x=120;
             
             this.addChild(materialradio);
             this.addChild(walkableradio);
             this.addChild(submit);
+            this.addChild(save);
         }
   
         

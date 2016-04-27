@@ -28,6 +28,14 @@ var editor;
         return WorldMap;
     }(render.DisplayObjectContainer));
     editor.WorldMap = WorldMap;
+    var Mapdata = (function () {
+        function Mapdata(material, walkable) {
+            this.material = material;
+            this.walkable = walkable;
+        }
+        return Mapdata;
+    }());
+    editor.Mapdata = Mapdata;
     var Material = (function () {
         function Material(source, name, walkable) {
             this.material = new render.Bitmap(source, name);
@@ -88,23 +96,32 @@ var editor;
             var submit = new ui.Button("提交");
             submit.height = 50;
             submit.y = 230;
-            submit.x = 50;
+            var save = new ui.Button("保存");
+            save.height = 50;
+            save.x = 120;
+            save.y = 230;
             submit.onClick = function () {
                 if (currenttile) {
                     var rows = mapData.length;
                     var cols = mapData[0].length;
                     _this.currentmaterial = materialradio.setMaterial;
                     _this.currentmaterial.walkable = walkableradio.walkable;
-                    mapEditor.getChild(currenttile.ownedCol, currenttile.ownedRow).setMaterial(_this.currentmaterial);
-                    information.Update(mapEditor.getChild(currenttile.ownedCol, currenttile.ownedRow));
+                    var child = mapEditor.getChild(currenttile.ownedCol, currenttile.ownedRow);
+                    child.setMaterial(_this.currentmaterial);
+                    information.Update(child);
                 }
                 else
                     alert("请先选择网格");
+            };
+            save.onClick = function () {
+                storage.saveFile(mapEditor);
+                alert("保存成功");
             };
             walkableradio.x = 120;
             this.addChild(materialradio);
             this.addChild(walkableradio);
             this.addChild(submit);
+            this.addChild(save);
         }
         return ControlPanel;
     }(render.DisplayObjectContainer));

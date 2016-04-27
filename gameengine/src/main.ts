@@ -4,8 +4,9 @@ function createMapEditor() {
     var world = new editor.WorldMap();
     var rows = mapData.length;
     var cols = mapData[0].length;
-
+    
     for (var col = 0; col < rows; col++) {
+
         for (var row = 0; row < cols; row++) {
             var tile = new editor.Tile();
             tile.setWalkable(mapData[row][col]);
@@ -15,15 +16,19 @@ function createMapEditor() {
             tile.ownedRow = row;
             tile.width = editor.GRID_PIXEL_WIDTH;
             tile.height = editor.GRID_PIXEL_HEIGHT;
+            
+            
             world.addChild(tile);
 
 
             eventCore.register(tile, events.displayObjectRectHitTest, onTileClick);
+            
         }
-        //world.stroke.x=0;
-        //world.stroke.y=0;
-        //world.addChild(world.stroke);
+ 
     }
+
+    
+    
 
     return world;
 
@@ -60,12 +65,14 @@ var mapData = storage.mapData;
 
 
 
+
 var renderCore = new render.RenderCore();
 var eventCore = events.EventCore.getInstance();
 eventCore.init();
 
 
 var mapEditor = createMapEditor();
+storage.saveFile(mapEditor);
 
 var stage = new render.DisplayObjectContainer();
 stage.addChild(mapEditor);

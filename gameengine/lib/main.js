@@ -43,6 +43,7 @@ var renderCore = new render.RenderCore();
 var eventCore = events.EventCore.getInstance();
 eventCore.init();
 var mapEditor = createMapEditor();
+storage.saveFile(mapEditor);
 var stage = new render.DisplayObjectContainer();
 stage.addChild(mapEditor);
 var information = new ui.Information();
