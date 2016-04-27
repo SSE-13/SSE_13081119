@@ -28,6 +28,8 @@ module data {
             
         }
         
+
+        
         public saveFile(worldmap:editor.WorldMap){
             var rows = mapData.length;
             var cols = mapData[0].length;

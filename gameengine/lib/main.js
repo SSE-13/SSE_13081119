@@ -26,6 +26,24 @@ materials.push(green);
 materials.push(black);
 materials.push(red);
 var currenttile;
+//读取json配置文件
+/*function LoadData(callback) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", __dirname + "/mapsave.json", true);
+    xmlhttp.send(null);
+    xmlhttp.onload = onloadComplete
+    function onloadComplete() {
+        var data = JSON.parse(xmlhttp.responseText);
+        callback(data);
+    }
+
+
+
+}
+
+LoadData(function(data){
+    console.log(data[0][0].walkable,data[0][0].material);
+})*/
 function onTileClick(tile) {
     currenttile = tile;
     if (mapEditor.children[mapEditor.children.length] != mapEditor.stroke) {
@@ -43,7 +61,6 @@ var renderCore = new render.RenderCore();
 var eventCore = events.EventCore.getInstance();
 eventCore.init();
 var mapEditor = createMapEditor();
-storage.saveFile(mapEditor);
 var stage = new render.DisplayObjectContainer();
 stage.addChild(mapEditor);
 var information = new ui.Information();
